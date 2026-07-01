@@ -50,10 +50,9 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
   const frame = useCurrentFrame();
   const { fps, durationInFrames } = useVideoConfig();
 
-  // Normalize: accept both 0-1 fraction (e.g. 0.82 = 82%) and 0-100 percentage (e.g. 82 = 82%)
-  // This ensures backward compatibility with existing demo props.
-  const normalized = progress <= 1 ? progress * 100 : progress;
-  const clampedProgress = Math.max(0, Math.min(100, normalized));
+  // progress is a 0-100 percentage integer (e.g. 82 = 82%).
+  // Values on a 0-1 fraction scale are NOT supported — use 0-100 directly.
+  const clampedProgress = Math.max(0, Math.min(100, progress));
 
   // Container entrance animation
   const containerOpacity = spring({
